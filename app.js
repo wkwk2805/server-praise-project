@@ -4,10 +4,14 @@ const bodyParser = require("body-parser");
 const low = require("lowdb");
 const FileSync = require("lowdb/adapters/FileSync");
 
-const adapter = new FileSync("db.json");
-const db = low(adapter);
 //db.defaults({ posts: [], user: {} }).write();
 
+app.get("/create_db", (req, res) => {
+  const adapter = new FileSync("db.json");
+  const db = low(adapter);
+  db.defaults({ lyrics: [1, 2, 3] }).write();
+  res.send("create File");
+});
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
