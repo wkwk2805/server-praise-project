@@ -5,6 +5,10 @@ const low = require("lowdb");
 const FileSync = require("lowdb/adapters/FileSync");
 const adapter = new FileSync("lyrics.json");
 const db = low(adapter);
+const cors = require("cors");
+
+//cors setting
+app.use(cors());
 
 //body-parser setting
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -18,10 +22,11 @@ app.get("/create_db", (req, res) => {
 
 //insert data
 app.put("/api/insert", (req, res) => {
-  db.get("lyrics")
+  res.json("success");
+  /* db.get("lyrics")
     .push(req.body)
     .write();
-  res.json({ result: "success", message: "등록성공" });
+  res.json({ result: "success", message: "등록성공" }); */
 });
 
 //update data
