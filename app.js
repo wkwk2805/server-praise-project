@@ -22,6 +22,7 @@ app.get("/create_db", (req, res) => {
 
 //insert data
 app.put("/api/insert", (req, res) => {
+  console.log(req.body);
   res.json("success");
   /* db.get("lyrics")
     .push(req.body)
