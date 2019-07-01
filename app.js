@@ -23,6 +23,10 @@ app.get("/create_db", (req, res) => {
   res.send("create File");
 });
 
+app.put("/api/upload", (req, res) => {
+  console.log(req.file);
+});
+
 //insert data
 app.put("/api", (req, res) => {
   try {
