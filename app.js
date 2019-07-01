@@ -7,15 +7,23 @@ const adapter = new FileSync("lyrics.json");
 const db = low(adapter);
 const cors = require("cors");
 const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
 const apply = require("./apply");
-
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, "./uploads");
+  },
+  filename: function(req, file, cb) {
+    cb(null, file.originalname);
+  }
+});
+const upload = multer({ storage });
 //cors setting
 app.use(cors());
 
 //body-parser setting
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use("/uploads", express.static("uploads"));
 
 //create database schema
 app.get("/create_db", (req, res) => {
@@ -23,8 +31,8 @@ app.get("/create_db", (req, res) => {
   res.send("create File");
 });
 
-app.put("/api/upload", (req, res) => {
-  console.log(req.file);
+app.post("/api", upload.single("file"), (req, res) => {
+  req.file && res.json(req.file.originalname);
 });
 
 //insert data
@@ -34,8 +42,11 @@ app.put("/api", (req, res) => {
     req.body.l_id = apply.processId(db);
     // contents processing
     req.body.contents = apply.processContents(req.body.contents);
-    // file processing
-    //apply.processFile(req.file);
+    // file name processing
+    req.body.file = apply.processFile(req.body.file);
+    // formData 지우기
+    delete req.body.formData;
+    // insert data
     db.get("lyrics")
       .push(req.body)
       .write();
@@ -54,9 +65,6 @@ app.patch("/api", (req, res) => {
     .write();
   res.json({ result: "success", message: "수정성공" });
 });
-
-//select data
-app.post("/api", (req, res) => {});
 
 //delete data
 app.delete("/api", (req, res) => {

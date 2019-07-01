@@ -1,16 +1,3 @@
 {
-  "lyrics": [
-    {
-      "contents": [
-        {
-          "c_id": 0,
-          "statement": "fadfadsfdsf"
-        }
-      ],
-      "tag": "fad",
-      "title": "fasdfsa",
-      "img": "C:\\fakepath\\jwt.png",
-      "l_id": 0
-    }
-  ]
+  "lyrics": []
 }

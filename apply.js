@@ -21,8 +21,8 @@ const apply = {
     return id;
   },
   processFile: file => {
-    console.log(file);
-    return false;
+    if (!file) return;
+    return file.split(/\\/)[2];
   }
 };
 
