@@ -75,6 +75,15 @@ app.delete("/api", (req, res) => {
   res.json({ result: "success", message: "삭제성공" });
 });
 
+app.get("/api", (req, res) => {
+  res.json(
+    db
+      .get("lyrics")
+      .take(9)
+      .value()
+  );
+});
+
 app.listen(3001, () => {
   console.log("Connect server");
 });
