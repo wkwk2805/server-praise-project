@@ -17,8 +17,8 @@ const apply = {
       .orderBy("l_id", "desc")
       .value()[0];
     let id = 0;
-    data && (id = data.l_id++);
-    return id;
+    data && (id = Object.assign(data.l_id, 0));
+    return ++id;
   },
   processFile: file => {
     if (!file) return;

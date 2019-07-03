@@ -38,18 +38,21 @@ app.post("/api", upload.single("file"), (req, res) => {
 //insert data
 app.put("/api", (req, res) => {
   try {
+    // copy data
+    const data = Object.assign(req.body, {});
     // id processing
-    req.body.l_id = apply.processId(db);
+    data.l_id = apply.processId(db);
     // contents processing
-    req.body.contents = apply.processContents(req.body.contents);
+    data.contents = apply.processContents(data.contents);
     // file name processing
-    req.body.file = apply.processFile(req.body.file);
-    // formData 지우기
-    delete req.body.formData;
+    data.file = apply.processFile(data.file);
+    // delete formData
+    delete data.formData;
     // insert data
     db.get("lyrics")
-      .push(req.body)
+      .push(data)
       .write();
+    // insert result
     res.json({ result: "success", message: "등록성공" });
   } catch (error) {
     console.error(error);
