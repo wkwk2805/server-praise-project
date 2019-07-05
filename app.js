@@ -84,6 +84,21 @@ app.get("/api", (req, res) => {
   );
 });
 
+app.get("/api/choice", (req, res) => {
+  console.log();
+  const ids = JSON.parse(req.query.id);
+  const data = [];
+  ids.forEach(id => {
+    data.push(
+      db
+        .get("lyrics")
+        .find({ l_id: id * 1 })
+        .value()
+    );
+  });
+  res.json(data);
+});
+
 app.listen(3001, () => {
   console.log("Connect server");
 });
