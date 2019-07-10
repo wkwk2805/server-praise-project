@@ -87,14 +87,24 @@ app.get("/api", (req, res) => {
 app.get("/api/choice", (req, res) => {
   const ids = JSON.parse(req.query.id);
   const data = [];
-  ids.forEach(id => {
+  console.log(ids.length);
+  if (ids.length > 1) {
+    ids.forEach(id => {
+      data.push(
+        db
+          .get("lyrics")
+          .find({ l_id: id * 1 })
+          .value()
+      );
+    });
+  } else {
     data.push(
       db
         .get("lyrics")
-        .find({ l_id: id * 1 })
+        .find({ l_id: ids * 1 })
         .value()
     );
-  });
+  }
   res.json(data);
 });
 
