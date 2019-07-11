@@ -87,7 +87,6 @@ app.get("/api", (req, res) => {
 app.get("/api/choice", (req, res) => {
   const ids = JSON.parse(req.query.id);
   const data = [];
-  console.log(ids.length);
   if (ids.length > 1) {
     ids.forEach(id => {
       data.push(
