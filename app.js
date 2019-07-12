@@ -109,12 +109,14 @@ app.get("/api/choice", (req, res) => {
   res.json(data);
 });
 
-const conn = app.listen(3001, () => {
+const server = app.listen(3001, () => {
   console.log("Connect server");
 });
 
-const io = socket(conn);
+const io = socket(server);
 
 io.on("connection", socket => {
-  console.log("connect socket");
+  socket.on("lyrics_info", data => {
+    io.emit("lyrics_info", data);
+  });
 });
