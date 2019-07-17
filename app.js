@@ -109,8 +109,6 @@ app.get("/api/choice", (req, res) => {
   res.json(data);
 });
 
-app.get("/api/downloads", (req, res) => {});
-
 app.listen(3001, () => {
   console.log("Connect server");
 });
