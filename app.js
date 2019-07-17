@@ -8,6 +8,7 @@ const db = low(adapter);
 const cors = require("cors");
 const multer = require("multer");
 const apply = require("./apply");
+const fs = require("fs");
 
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
@@ -107,6 +108,8 @@ app.get("/api/choice", (req, res) => {
   }
   res.json(data);
 });
+
+app.get("/api/downloads", (req, res) => {});
 
 app.listen(3001, () => {
   console.log("Connect server");
