@@ -8,7 +8,6 @@ const db = low(adapter);
 const cors = require("cors");
 const multer = require("multer");
 const apply = require("./apply");
-const fs = require("fs");
 
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
