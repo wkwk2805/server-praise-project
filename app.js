@@ -85,6 +85,19 @@ app.get("/api", (req, res) => {
   );
 });
 
+app.get("/api/search", (req, res) => {
+  res.json(
+    db
+      .get("lyrics")
+      .filter(lyrics =>
+        new RegExp(req.query.info).test(
+          lyrics.contents.map(e => e.statement).join("")
+        )
+      )
+      .value()
+  );
+});
+
 app.get("/api/choice", (req, res) => {
   const ids = JSON.parse(req.query.id);
   const data = [];
