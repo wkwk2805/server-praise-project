@@ -86,33 +86,35 @@ app.get("/api", (req, res) => {
 });
 
 app.get("/api/search", (req, res) => {
-  res.json(
-    db
-      .get("lyrics")
-      .filter(lyrics =>
-        new RegExp(req.query.info).test(
-          lyrics.contents.map(e => e.statement).join(" ") + lyrics.title
-        )
+  let result = db
+    .get("lyrics")
+    .filter(lyrics =>
+      new RegExp(req.query.info).test(
+        lyrics.contents.map(e => e.statement).join(" ") +
+          lyrics.title +
+          lyrics.code
       )
-      .take(9)
-      .value()
-  );
+    )
+    .take(9)
+    .value();
+  res.json(result);
 });
 
 app.get("/api/scroll", (req, res) => {
   const first = req.query.first;
-  res.json(
-    db
-      .get("lyrics")
-      .filter(lyrics =>
-        new RegExp(req.query.info).test(
-          lyrics.contents.map(e => e.statement).join(" ") + lyrics.title
-        )
+  let result = db
+    .get("lyrics")
+    .filter(lyrics =>
+      new RegExp(req.query.info).test(
+        lyrics.contents.map(e => e.statement).join(" ") +
+          lyrics.title +
+          lyrics.code
       )
-      .filter((item, i) => i > first)
-      .take(9)
-      .value()
-  );
+    )
+    .filter((item, i) => i > first * 1)
+    .take(6)
+    .value();
+  res.json(result);
 });
 
 app.get("/api/choice", (req, res) => {
