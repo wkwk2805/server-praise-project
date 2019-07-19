@@ -94,6 +94,23 @@ app.get("/api/search", (req, res) => {
           lyrics.contents.map(e => e.statement).join(" ") + lyrics.title
         )
       )
+      .take(9)
+      .value()
+  );
+});
+
+app.get("/api/scroll", (req, res) => {
+  const first = req.query.first;
+  res.json(
+    db
+      .get("lyrics")
+      .filter(lyrics =>
+        new RegExp(req.query.info).test(
+          lyrics.contents.map(e => e.statement).join(" ") + lyrics.title
+        )
+      )
+      .filter((item, i) => i > first)
+      .take(9)
       .value()
   );
 });
