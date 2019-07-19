@@ -91,7 +91,7 @@ app.get("/api/search", (req, res) => {
       .get("lyrics")
       .filter(lyrics =>
         new RegExp(req.query.info).test(
-          lyrics.contents.map(e => e.statement).join("")
+          lyrics.contents.map(e => e.statement).join(" ") + lyrics.title
         )
       )
       .value()
