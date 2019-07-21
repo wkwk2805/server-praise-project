@@ -120,7 +120,7 @@ app.get("/api/scroll", (req, res) => {
 app.get("/api/choice", (req, res) => {
   const ids = JSON.parse(req.query.id);
   const data = [];
-  if (ids.length > 1) {
+  if (ids instanceof Array && ids.length > 0) {
     ids.forEach(id => {
       data.push(
         db
