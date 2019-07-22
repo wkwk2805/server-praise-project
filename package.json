@@ -15,5 +15,6 @@
   "scripts": {
     "start": "nodemon app"
   },
-  "repository": "https://github.com/wkwk2805/server-praise-project.git"
+  "repository": "https://github.com/wkwk2805/server-praise-project.git",
+  "author": "wkwk2805 <wkwk2805@gmail.com>"
 }
