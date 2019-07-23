@@ -140,6 +140,6 @@ app.get("/api/choice", (req, res) => {
   res.json(data);
 });
 
-app.listen(3001, () => {
+app.listen(80, () => {
   console.log("Connect server");
 });
