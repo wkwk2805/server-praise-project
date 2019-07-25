@@ -72,7 +72,8 @@ app.patch("/api", (req, res) => {
 
 //delete data
 app.delete("/api", (req, res) => {
-  db.get("lyrics").remove({ id: req.body.id });
+  console.log(req.body);
+  //db.get("lyrics").remove({ id: req.body.id });
   res.json({ result: "success", message: "삭제성공" });
 });
 
@@ -140,6 +141,6 @@ app.get("/api/choice", (req, res) => {
   res.json(data);
 });
 
-app.listen(3553, () => {
+app.listen(3001, () => {
   console.log("Connect server");
 });
