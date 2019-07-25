@@ -61,10 +61,19 @@ app.put("/api", (req, res) => {
   }
 });
 
+app.patch("/api/pre", (req, res) => {
+  let lyrics = db
+    .get("lyrics")
+    .find({ l_id: req.body.id * 1 })
+    .value();
+  res.json(lyrics);
+});
+
 //update data
 app.patch("/api", (req, res) => {
-  db.get("lyrics")
-    .find({ id: req.body.id })
+  let lyrics = db
+    .get("lyrics")
+    .find({ l_id: req.body.id * 1 })
     .assign(req.body)
     .write();
   res.json({ result: "success", message: "수정성공" });
@@ -72,8 +81,9 @@ app.patch("/api", (req, res) => {
 
 //delete data
 app.delete("/api", (req, res) => {
-  console.log(req.body);
-  //db.get("lyrics").remove({ id: req.body.id });
+  db.get("lyrics")
+    .remove({ l_id: req.body.id * 1 })
+    .write();
   res.json({ result: "success", message: "삭제성공" });
 });
 
