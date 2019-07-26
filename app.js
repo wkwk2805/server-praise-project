@@ -8,6 +8,7 @@ const db = low(adapter);
 const cors = require("cors");
 const multer = require("multer");
 const apply = require("./apply");
+const fs = require("fs");
 
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
@@ -71,9 +72,19 @@ app.patch("/api/pre", (req, res) => {
 
 //update data
 app.patch("/api", (req, res) => {
+  if (req.body.file && req.body.preFile !== req.body.file) {
+    // 기존 파일 제거 및 신규파일 추가
+    fs.unlink(`./uploads/${req.body.preFile}`, function(err) {
+      if (err) throw err;
+      console.log("file deleted");
+    });
+  }
+  req.body.preFile && delete req.body.preFile;
+  // 내용 변경
+  req.body.contents = apply.processContents(req.body.contents);
   let lyrics = db
     .get("lyrics")
-    .find({ l_id: req.body.id * 1 })
+    .find({ l_id: req.body.l_id * 1 })
     .assign(req.body)
     .write();
   res.json({ result: "success", message: "수정성공" });
