@@ -9,6 +9,25 @@ const cors = require("cors");
 const multer = require("multer");
 const apply = require("./apply");
 const fs = require("fs");
+const session = require("express-session");
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
+
+app.use(
+  session({
+    secret: "asadlfkj!@#!@#dfgasdg",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 1000 * 60 * 60 }
+  })
+);
+//cors setting
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true
+  })
+);
 
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
@@ -19,8 +38,6 @@ const storage = multer.diskStorage({
   }
 });
 const upload = multer({ storage });
-//cors setting
-app.use(cors());
 
 //body-parser setting
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -160,6 +177,22 @@ app.get("/api/choice", (req, res) => {
     );
   }
   res.json(data);
+});
+
+const admin = {
+  id: "admin",
+  password: "111111"
+};
+
+app.post("/api/login", (req, res) => {
+  const { id, password } = req.body;
+  if (admin.id === id && admin.password === password) {
+    res.json({ success: true });
+    //로그인 성공
+  } else {
+    //로그인 실패
+    res.json({ success: false });
+  }
 });
 
 app.listen(3001, () => {
