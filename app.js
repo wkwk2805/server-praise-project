@@ -17,14 +17,13 @@ app.use(
   session({
     secret: "asadlfkj!@#!@#dfgasdg",
     resave: false,
-    saveUninitialized: true,
-    cookie: { maxAge: 1000 * 60 * 60 }
+    saveUninitialized: true
   })
 );
 //cors setting
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: true,
     credentials: true
   })
 );
@@ -187,10 +186,11 @@ const admin = {
 app.post("/api/login", (req, res) => {
   const { id, password } = req.body;
   if (admin.id === id && admin.password === password) {
+    req.session.isLogin = true;
+  }
+  if (req.session.isLogin) {
     res.json({ success: true });
-    //로그인 성공
   } else {
-    //로그인 실패
     res.json({ success: false });
   }
 });
