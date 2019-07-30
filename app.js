@@ -9,6 +9,7 @@ const cors = require("cors");
 const multer = require("multer");
 const apply = require("./apply");
 const fs = require("fs");
+const _ = require("underscore");
 
 //cors setting
 app.use(
@@ -114,18 +115,8 @@ app.get("/api", (req, res) => {
 });
 
 app.get("/api/search", (req, res) => {
-  let result = db
-    .get("lyrics")
-    .filter(lyrics =>
-      new RegExp(req.query.info).test(
-        lyrics.contents.map(e => e.statement).join(" ") +
-          lyrics.title +
-          lyrics.code
-      )
-    )
-    .take(9)
-    .value();
-  res.json(result);
+  let lastData = apply.processSearch(db, req.query.info, _);
+  res.json(lastData);
 });
 
 app.get("/api/scroll", (req, res) => {
