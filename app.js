@@ -9,17 +9,7 @@ const cors = require("cors");
 const multer = require("multer");
 const apply = require("./apply");
 const fs = require("fs");
-const session = require("express-session");
-const cookieParser = require("cookie-parser");
-app.use(cookieParser());
 
-app.use(
-  session({
-    secret: "asadlfkj!@#!@#dfgasdg",
-    resave: false,
-    saveUninitialized: true
-  })
-);
 //cors setting
 app.use(
   cors({
@@ -91,7 +81,7 @@ app.patch("/api", (req, res) => {
   if (req.body.file && req.body.preFile !== req.body.file) {
     // 기존 파일 제거 및 신규파일 추가
     fs.unlink(`./uploads/${req.body.preFile}`, function(err) {
-      if (err) throw err;
+      if (err) console.log(err);
       console.log("file deleted");
     });
   }
@@ -186,9 +176,6 @@ const admin = {
 app.post("/api/login", (req, res) => {
   const { id, password } = req.body;
   if (admin.id === id && admin.password === password) {
-    req.session.isLogin = true;
-  }
-  if (req.session.isLogin) {
     res.json({ success: true });
   } else {
     res.json({ success: false });
